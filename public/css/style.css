@@ -34,7 +34,7 @@ body{
     background-color: transparent;
     color: #5E93D1;
     border: 1px solid #5E93D1;
-}   
+}
 
 .bg-index{
     background-color: #fbfbfb;
@@ -55,7 +55,7 @@ body{
 }
 
 .bg-color-user{
-    background-color: #E576C6;        
+    background-color: #E576C6;
 }
 
 .avatar-crop{
@@ -67,7 +67,7 @@ body{
 }
 
 
-.auto-crop{   
+.auto-crop{
     width: 190px;
     height: 212px;
     background-position: center center;
@@ -77,22 +77,22 @@ body{
 
 .edit-file-profile{
     width: 0;
-    height: 0;    
+    height: 0;
 }
 
 .btn-edit-profile{
-    position: absolute;        
-    cursor: pointer;    
+    position: absolute;
+    cursor: pointer;
 }
 
-.img-robot-detail{    
-    border-radius: 9px;    
+.img-robot-detail{
+    border-radius: 9px;
     height: 927px;
     width: 173px;
 }
 
 .bg-robot-detail{
-    background-color: #ECF6FF;            
+    background-color: #ECF6FF;
 }
 
 .image-frame1{
@@ -123,18 +123,18 @@ body{
     display: block;
 }
 
-.icon-polygon-up{        
-    background: url(/img/icon/icon-Polygon-up.svg);    
+.icon-polygon-up{
+    background: url(/img/icon/icon-Polygon-up.svg);
     width: 27px;
     height: 15px;
-    display: block;        
+    display: block;
 }
 
 .icon-polygon-down{
     background-image: url('/img/icon/icon-Polygon-down.svg');
     width: 27px;
     height: 15px;
-    display: block;        
+    display: block;
 }
 
 .icon-three-dots-vertical{
@@ -183,8 +183,8 @@ body{
     background-image: url(/img/frame_header1.png);
     width: 707.14px;
     height: 524px;
-    display: block;   
-    margin-top: -145px;    
+    display: block;
+    margin-top: -145px;
     margin-left: -100px;
 }
 
@@ -192,40 +192,97 @@ body{
     background-image: url(/img/frame_header2.png);
     width: 595px;
     height: 449.7px;
-    display: block;   
-    margin-top: -29px;                
-    margin-right: -100px;    
+    display: block;
+    margin-top: -29px;
+    margin-right: -100px;
 }
 
 .bg-color-header{
     background-color: #ECF6FF;
     height: 320px;
-    overflow: hidden;        
+    overflow: hidden;
 }
 
 
-.text-header > p{    
-    font-size: 48px;    
+.text-header > p{
+    font-size: 48px;
     font-weight: 600;
 }
 
 
 .text-header > p:nth-child(1){
-    color: #5E93D1;       
+    color: #5E93D1;
 }
 
 .text-header > p:nth-child(2){
-    color: #E576C6;   
+    color: #E576C6;
 }
 
 .btn-back{
     background-color: #E576C6;
-    color: #fff;    
+    color: #fff;
 }
 
 .icon-arrow-left{
     background-image: url(/img/icon/icon-arrow-left.svg);
     width: 24px;
     height: 24px;
-    display: block;       
+    display: block;
+}
+
+.bg-before-login-detail{
+    background-color: #5E93D1;
+    height: 226px;
+}
+
+.detail-before-login1{
+    background-image: url(/img/robot_frame_before_login1.png);
+    width: 147px;
+    height: 191px;
+    margin-top: 9px;
+    margin-top: 34px;
+}
+
+.detail-before-login2{
+    background-image: url(/img/robot_frame_before_login2.png);
+    width: 96px;
+    height: 189px;
+    margin-top: 37px;
+    margin-right: 40px;
+}
+
+.text-before-login-answer{
+    width: max-content;
+}
+
+.text-before-login-answer > p{
+    color: #FFFFFF;
+}
+
+.text-before-login-answer > p:nth-child(1){
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 36px;
+    margin: 0 0 10px 0 ;
+}
+
+.text-before-login-answer > p:nth-child(2){
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.btn-masuk{
+    height: 56px;
+    width: 144px;
+    font-size: 18px !important;
+}
+
+a.btn.btn-before-login-answer{
+    height: 56px;
+    width: 144px;
+    padding-top: 14px;
+    font-size: 18px !important;
+    color: #5E93D1;
+    background-color: #fff;
 }
