@@ -13,13 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-
-// Route::get('/register', function () {
-//     return view('register');
-// });
+Route::get('/', 'PagesController@index')->name('index');
+Route::get('/upvote', 'PagesController@upvote')->name('upvote');
+Route::get('/downvote', 'PagesController@downvote')->name('downvote');
 
 Auth::routes();
 
