@@ -11,6 +11,21 @@
 
 @section('container')
 <body>
+      <header class="bg-color-header position-relative">
+        <div class="text-header text-center position-absolute top-50 start-50 translate-middle">
+          <p>Temukan jawabanmu terkait</p>
+          <p>Dunia Digital</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="">
+            <div class="bg-header1"></div>
+          </div>
+          <div class="">
+            <div class="bg-header2"></div>
+          </div>
+        </div>
+          <!-- <img src="/img/Frame_index.png" alt="" class="img-fluid" width="100%"> -->
+      </header>
       <section class="bg-index" style="min-height: 100%">
           <div class="container">
             <form action="" class="row pt-3 pb-3">
@@ -29,7 +44,7 @@
                   </div>
             </form>
 
-            @foreach ($question as $items)
+          @foreach ($question as $items)
             <div class="card border-0 mb-3">
                 <div class="row g-0 m-3">
                   <div class="col-md-2 my-auto mx-auto">
@@ -159,7 +174,8 @@
                   <img src="{{asset('img/robot_before_auth.png')}}" alt="" class="img-fluid">
                   <div class="mt-3">
                     <h4>Belum memiliki akun?</h4>
-                  <small>Login untuk melakukan aktivitas anda</small>
+                  <small>Login untuk melakukan aktivitas
+                    anda</small>
                   </div>
               </div>
               </div>
@@ -172,6 +188,7 @@
           </div>
         </div>
       </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/tagin.js"></script>
     <script>

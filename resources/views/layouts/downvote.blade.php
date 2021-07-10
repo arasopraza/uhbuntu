@@ -29,6 +29,7 @@
                   </div>
             </form>
 
+            @foreach ($question as $items)
             <div class="card border-0 mb-3">
                 <div class="row g-0 m-3">
                   <div class="col-md-2 my-auto mx-auto">
@@ -61,8 +62,8 @@
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                      <h5 class="card-title">{{ $items->title }}</h5>
+                      <p class="card-text">{{ $items->content }}</p>
                     </div>
                   </div>
                   <div class="col-md-2 my-auto">
@@ -72,6 +73,7 @@
                     </div>
                 </div>
               </div>
+              @endforeach
           </div>
         </div>
       </section>
