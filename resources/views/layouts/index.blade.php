@@ -83,7 +83,7 @@
                   </div>
                   <div class="col-md-2 my-auto">
                       <div class="text-center">
-                        <a href="" class="fw-bolder main-color">Tampilkan</a>
+                        <a href="/questions/{{ $items->id }}" class="fw-bolder main-color">Tampilkan</a>
                       </div>
                     </div>
                 </div>

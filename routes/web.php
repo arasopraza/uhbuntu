@@ -20,3 +20,4 @@ Route::get('/downvote', 'PagesController@downvote')->name('downvote');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/questions/{question}', 'QuestionsController@show')->name('question');
