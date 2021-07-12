@@ -2,15 +2,7 @@
 
 @section('title', 'Uhbuntu')
 
-<style>
-    html, body{
-        height: 100%;
-        overflow: hidden;
-    }
-</style>
-
 @section('container')
-<body>
       <header class="bg-color-header position-relative">
         <div class="text-header text-center position-absolute top-50 start-50 translate-middle">
           <p>Temukan jawabanmu terkait</p>
@@ -188,16 +180,14 @@
           </div>
         </div>
       </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/tagin.js"></script>
-    <script>
-        const tags = $('.tagin')[0]
-        tagin(tags)
-
-        $('#upload_profile').change((e) => {
-          $('#preview_image').attr('src', URL.createObjectURL($(e)[0].target.files[0]))
-        })
-    </script>
-</body>
 @endsection
+@push('scripts')
+<script>
+    const tags = $('.tagin')[0]
+    tagin(tags)
+
+    $('#upload_profile').change((e) => {
+      $('#preview_image').attr('src', URL.createObjectURL($(e)[0].target.files[0]))
+    })
+</script>
+@endpush

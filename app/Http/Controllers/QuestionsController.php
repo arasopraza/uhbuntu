@@ -6,7 +6,6 @@ use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
 class QuestionsController extends Controller
 {
     /**
@@ -46,14 +45,10 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $question)
+    public function show($id)
     {
-        $question = DB::table('questions')
-            ->join('users', 'users.id', '=', 'questions.user_id')
-            ->select('questions.*', 'users.name')
-            ->first();
-
-            return $question;
+        $question = Question::findOrFail($id);
+        return view('layouts.detail', compact('question'));
         // return view('layouts/detail', compact('question'));
     }
 
