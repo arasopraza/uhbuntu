@@ -39,7 +39,7 @@
                                 <img src="img/icon/icon_dipilih.svg" alt="" class="img-fluid">
                               </div>
                               <div class="ms-3 mt-1 mb-1">
-                                  <p class="m-0 my-auto">0 Dipilih</p>
+                                  <p class="m-0 my-auto">{{$items->vote->count}} Dipilih</p>
                               </div>
                           </li>
                           <li class="d-flex my-2">
@@ -47,7 +47,7 @@
                               <img src="img/icon/icon_jawab.svg" alt="" class="img-fluid">
                             </div>
                             <div class="ms-3 mt-1 mb-1">
-                                <p class="m-0 my-auto">0 Jawaban</p>
+                                <p class="m-0 my-auto">{{count($items->answer)}} Jawaban</p>
                             </div>
                         </li>
                         <li class="d-flex my-2">
@@ -55,7 +55,7 @@
                               <img src="img/icon/icon_mata.svg" alt="" class="img-fluid">
                             </div>
                             <div class="ms-3 mt-1 mb-1">
-                                <p class="m-0 my-auto">5 Dilihat</p>
+                                <p class="m-0 my-auto">{{$items->view->count}} Dilihat</p>
                             </div>
                         </li>
                       </ul>
@@ -68,7 +68,7 @@
                   </div>
                   <div class="col-md-2 my-auto">
                       <div class="text-center">
-                        <a href="" class="fw-bolder main-color">Tampilkan</a>
+                        <a href="{{route('question', $items->id)}}" class="fw-bolder main-color">Tampilkan</a>
                       </div>
                     </div>
                 </div>

@@ -115,6 +115,35 @@
           </div>
         </div>
       </div>
+      <div class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="row justify-content-end m-2">
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+            <div class="modal-body" style="padding-top: 0;">
+              <div class="container">
+                <div class="text-center mb-5">
+                  <img src="../img/robot.png" alt="" class="img-fluid">
+                  <h4>Apakah kamu yakin keluar
+                    dari halaman?</h4>
+              </div>
+              </div>
+            </div>
+            <div class="modal-footer" style="border: none;">
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mx-auto d-flex justify-content-between mb-5">
+                @csrf
+                <div class="d-grid mx-2">
+                  <button type="button" class="btn btn-lg btn-outline-main-color px-5" data-bs-dismiss="modal">Batal</button>
+                </div>
+                <div class="d-grid mx-2">
+                  <button type="submit" class="btn btn-lg btn-keluar px-5">Keluar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{asset('js/trumbowyg.min.js')}}"></script>

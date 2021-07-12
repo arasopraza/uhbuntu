@@ -46,12 +46,12 @@
                     <div class="d-flex">
                       <div class="me-3">
                         <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
-                          <img src="../img/avatar.png" alt="" class="img-fluid \" width="30px">
+                          <img src="../img/avatar.png" alt="" class="img-fluid" width="30px">
                       </div>
                       </div>
                       <div class="">
                         <h6 class="m-0">{{$question->user->name}}</h6>
-                        <small class="m-0 fw-bold">Kamis, 1-7-2021</small>
+                        <small class="m-0 fw-bold">{{Helpers::parseDate($question->updated_at)}}</small>
                       </div>
                     </div>
                   </div>
@@ -59,161 +59,196 @@
 
                 <div class="card border-0 g-0">
                   <div class="m-3">
-                    <div class="card-body">
-                      <h5 class="card-title">{{ $question->title }}</h5>
-                      <p class="card-text">{{ $question->content }}</p>
+                    <div class="row">
+                        <div class="card-body col-11">
+                            <h5 class="card-title">{{ $question->title }}</h5>
+                            <p class="card-text">{{ $question->content }}</p>
+                          </div>
+                          @if (Auth::id() == $question->user->id)
+                            <div class="col-1">
+                                <div class="dropdown">
+                                <button class="btn btn-icon" type="button" id="dots-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="icon-three-dots-vertical"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dots-action">
+                                    <li><a class="dropdown-item" href="#" onclick="editQuestion()">Edit</a></li>
+                                    <li><a class="dropdown-item" onclick="document.querySelector('#deleteQuestion').submit()" href="#">Hapus</a></li>
+                                    <form action="{{route('destroy_question', $question->id)}}" method="post" id="deleteQuestion">
+                                    {{ csrf_field() }}
+                                    {{ method_field('delete') }}
+                                    </form>
+                                </ul>
+                                </div>
+                            </div>
+                          @endif
                     </div>
                   </div>
                 </div>
 
                 <div class="my-4">
-                  <h5>Jawaban(1)</h5>
+                  <h5>Jawaban({{$answer->count()}})</h5>
                 </div>
 
+                @foreach ($answer as $item)
+                @if ($item->user->id == Auth::id())
+                    @continue
+                @else
                 <div class="card border-0 g-0 mb-3">
-                  <div class="row m-3">
-                    <div class="col-12 d-flex mx-1">
-                      <div class="my-auto p-0">
-                          <ul class="me-4 p-0">
-                              <li class="d-flex my-2">
-                                  <div>
-                                    <span class="icon-polygon-up"></span>
+                    <div class="row m-3">
+                      <div class="col-12 d-flex mx-1">
+                        <div class="my-auto p-0">
+                            <ul class="me-4 p-0">
+                                <li class="d-flex my-2">
+                                    <div>
+                                      <span class="icon-polygon-up"></span>
+                                    </div>
+                                </li>
+                                <li class="d-flex my-2">
+                                  <div class="mx-2 main-color">
+                                    {{$item->vote->count}}
                                   </div>
                               </li>
                               <li class="d-flex my-2">
-                                <div class="mx-2 main-color">
-                                  1
-                                </div>
-                            </li>
-                            <li class="d-flex my-2">
-                                <div>
-                                  <span class="icon-polygon-down"></span>
-                                </div>
-                            </li>
-                          </ul>
-                      </div>
-                      <div class="col-11 my-auto">
-                        <div class="d-flex">
-                          <div class="me-3">
-                            <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
-                              <img src="../img/avatar.png" alt="" class="img-fluid \" width="30px">
-                          </div>
-                          </div>
-                          <div class="">
-                            <h6 class="m-0">Arsy</h6>
-                            <small class="m-0 fw-bold">Kamis, 1-7-2021</small>
+                                  <div>
+                                    <span class="icon-polygon-down"></span>
+                                  </div>
+                              </li>
+                            </ul>
+                        </div>
+                        <div class="col-11 my-auto">
+                          <div class="d-flex">
+                            <div class="me-3">
+                              <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
+                                <img src="../img/avatar.png" alt="" class="img-fluid" width="30px">
+                            </div>
+                            </div>
+                            <div class="">
+                              <h6 class="m-0">{{$item->user->name}}</h6>
+                              <small class="m-0 fw-bold">{{Helpers::parseDate($item->updated_at)}}</small>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div class="col-12">
-                      <div class="card-body pt-0">
-                        <div class="card-text">
-                          <p class="fw-bold">Coba pakai code ini</p>
-                          <p>
-                            .class-yang-dipakai {
-                              background-image: url("http://namadomain.com/folder image/nama-imag.jpg");
-                              background-repeat: no-repeat;
-                              padding-left: 18px !important;
-                              background-size: 20%;
-                              background-position-y: 20%;
-                            }
-                          </p>
+                      <div class="col-12">
+                        <div class="card-body pt-0">
+                          <div class="card-text">
+                            {!! $item->content !!}
+                          </div>
                         </div>
                       </div>
+
                     </div>
                   </div>
-                </div>
-
+                @endif
+                @endforeach
+                @guest
                 <div class="my-4">
-                  <h5>Jawabanmu</h5>
+                    <h5>Jawabanmu</h5>
                 </div>
-
-
-                <div class="card border-0 g-0 mb-3">
-                  <div class="row m-3">
-                    <div class="col-12 m-4 p-0">
-                      <div class="my-auto">
-                        <div class="d-flex">
-                          <div class="pe-3">
-                            <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
-                              <img src="../img/avatar.png" alt="" class="img-fluid \" width="30px">
-                          </div>
-                          </div>
-                          <div class="my-auto">
-                            <h6 class="m-0">Wiliam Thunder</h6>
-                            <small class="m-0 fw-bold">Kamis, 1-7-2021</small>
-                          </div>
-                        </div>
-                      </div>
-                      </div>
-                    <div class="col-12">
-                      <div class="card-body pt-0">
-                        <div class="row" id="box_jawaban1">
-                          <div class="col-11">
-                            <div class="card-text" id="jawaban1">
-                              <p class="fw-bold">Coba pakai code ini</p>
-                              <p>
-                                .class-yang-dipakai {
-                                  background-image: url("http://namadomain.com/folder image/nama-imag.jpg");
-                                  background-repeat: no-repeat;
-                                  padding-left: 18px !important;
-                                  background-size: 20%;
-                                  background-position-y: 20%;
-                                }
-                              </p>
-                            </div>
-                          </div>
-                          <div class="col-1">
-                            <div class="dropdown">
-                              <button class="btn btn-icon" type="button" id="dots-action" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="icon-three-dots-vertical"></span>
-                              </button>
-                              <ul class="dropdown-menu" aria-labelledby="dots-action">
-                                <li><a class="dropdown-item" href="#" onclick="editJawaban(1)">Edit</a></li>
-                                <li><a class="dropdown-item" href="#">Hapus</a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                <div class="card border-0 g-0 mb-3 bg-before-login-detail">
+                    <div class="text-before-login-answer text-center position-absolute top-50 start-50 translate-middle">
+                        <p>Kamu belum memiliki akun?</p>
+                        <p>Masuk untuk membantu menjawab pertanyaan</p>
+                        <a href="{{route('login')}}" class="btn btn-before-login-answer mt-3">Masuk</a>
                     </div>
-                  </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="detail-before-login1"></div>
+                        <div class="detail-before-login2"></div>
+                    </div>
                 </div>
-
-                <div class="card border-0 g-0 mb-3">
-                  <div class="row m-3">
-                    <div class="col-12 m-4 p-0">
-                    <div class="my-auto">
-                      <div class="d-flex">
-                        <div class="pe-3">
-                          <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
-                            <img src="../img/avatar.png" alt="" class="img-fluid \" width="30px">
+                @else
+                    @if (Auth::user()->id != $question->user->id)
+                    <div class="my-4">
+                    <h5>Jawabanmu</h5>
+                    </div>
+                    @foreach ($answer as $item)
+                    @if ($item->user->id == Auth::id())
+                    <div class="card border-0 g-0 mb-3">
+                        <div class="row m-3">
+                        <div class="col-12 m-4 p-0">
+                            <div class="my-auto">
+                            <div class="d-flex">
+                                <div class="pe-3">
+                                <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
+                                    <img src="../img/avatar.png" alt="" class="img-fluid" width="30px">
+                                </div>
+                                </div>
+                                <div class="my-auto">
+                                <h6 class="m-0">{{Auth::user()->name}}</h6>
+                                <small class="m-0 fw-bold">{{Helpers::parseDate($item->updated_at)}}</small>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        <div class="col-12">
+                            <div class="card-body pt-0">
+                            <div class="row" id="box_jawaban{{$item->id}}">
+                                <div class="col-11">
+                                <div class="card-text" id="jawaban{{$item->id}}">
+                                    {!! $item->content !!}
+                                </div>
+                                </div>
+                                <div class="col-1">
+                                <div class="dropdown">
+                                    <button class="btn btn-icon" type="button" id="dots-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="icon-three-dots-vertical"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dots-action">
+                                    <li><a class="dropdown-item" href="#" onclick="editJawaban({{$item->id}})">Edit</a></li>
+                                    <li><a class="dropdown-item" onclick="document.querySelector('#deleteJawaban'+{{$item->id}}).submit()" href="#">Hapus</a></li>
+                                    <form action="{{route('destroy_answer', $item->id)}}" method="post" id="deleteJawaban{{$item->id}}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('delete') }}
+                                    </form>
+                                    </ul>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
                         </div>
                         </div>
+                    </div>
+                    @else
+                    @continue
+                    @endif
+                    @endforeach
+                    <div class="card border-0 g-0 mb-3">
+                        <div class="row m-3">
+                        <div class="col-12 m-4 p-0">
                         <div class="my-auto">
-                          <h6 class="m-0">Wiliam Thunder</h6>
-                        </div>
-                      </div>
-                    </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="card-body pt-0">
-                        <div class="row" id="box_jawaban2">
-                          <div class="col-12">
-                           <form action="">
-                             <div class="mb-3">
-                              <textarea name="" id="edit_jawaban2" cols="30" rows="10" class="form-control edit-jawaban"></textarea>
+                            <div class="d-flex">
+                            <div class="pe-3">
+                                <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
+                                <img src="../img/avatar.png" alt="" class="img-fluid" width="30px">
                             </div>
-                            <button type="submit" class="btn btn-main-color">Submit</button>
-                           </form>
-                          </div>
+                            </div>
+                            <div class="my-auto">
+                                <h6 class="m-0">{{Auth::user()->name}}</h6>
+                            </div>
+                            </div>
                         </div>
-                      </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card-body pt-0">
+                            <div class="row" id="">
+                                <div class="col-12">
+                                <form action="{{route('store_answer')}}" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="question_id" value="{{$question->id}}">
+                                <div class="mb-3">
+                                    <textarea name="answer" cols="30" rows="10" class="form-control edit-jawaban"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-main-color">Submit</button>
+                                </form>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
+                    @endif
+                @endguest
 
               </div>
               <div class="col-2">
@@ -232,94 +267,6 @@
           </div>
         </div>
       </section>
-
-      <div class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="row justify-content-end m-2">
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-            <div class="modal-body" style="padding-top: 0;">
-              <div class="container">
-                <div class="text-center mb-5">
-                  <img src="../img/robot.png" alt="" class="img-fluid">
-                  <h4>Apakah kamu yakin keluar
-                    dari halaman?</h4>
-              </div>
-              </div>
-            </div>
-            <div class="modal-footer" style="border: none;">
-              <form action="" class="mx-auto d-flex justify-content-between">
-                <div class="d-grid mx-2">
-                  <button type="button" class="btn btn-lg btn-outline-main-color px-5" data-bs-dismiss="modal">Batal</button>
-                </div>
-                <div class="d-grid mx-2">
-                  <button type="submit" class="btn btn-lg btn-main-color px-5">Keluar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="modalProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-              <div class="row justify-content-end m-2">
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-            <div class="modal-body" style="padding-top: 0;">
-                <form action="">
-                    <div class="text-center mb-3">
-                        <h3>Edit Profile</h3>
-                    </div>
-                    <div class="container">
-                        <div class="mb-5">
-                            <div class="mx-auto text-center mb-5" style="width: 190px">
-                              <div class="rounded bg-color-user mb-2">
-                              <div class="w-100">
-                                <label for="upload-profile" class="d-flex justify-content-end">
-                                  <img src="../img/icon/icon_edit.svg" alt="" class="image-fluid btn-edit-profile">
-                                </label>
-                                <input type="file" name="" id="upload-profile" class="edit-file-profile">
-                              </div>
-                              <div class="auto-crop">
-                                <img src="../img/avatar.png" alt="" class="img-fluid">
-                              </div>
-                            </div>
-                              <h5>Wiliam Thunder</h5>
-                            </div>
-                            <div class="mb-3 row">
-                              <div class="col-6 mb-3">
-                                <label for="" class="mb-2">Nama Depan</label>
-                                <input type="text" class="form-control" value="Wiliam" placeholder="Masukkan Nama Depan">
-                              </div>
-                              <div class="col-6 mb-3">
-                                <label for="" class="mb-2">Nama Belakang</label>
-                                <input type="text" class="form-control" value="Thunder" placeholder="Masukkan Nama Belakang">
-                              </div>
-                              <div class="col-6 mb-3">
-                                <label for="" class="mb-2">Email</label>
-                                <input type="Email" class="form-control" value="wiliamthunder@gmail.com" placeholder="Masukkan Email">
-                              </div>
-                              <div class="col-6 mb-3">
-                                <label for="" class="mb-2">Kata Sandi</label>
-                                <input type="text" class="form-control" value="" placeholder="Masukkan Kata sandi">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-main-color">Simpan</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer" style="border: none;">
-
-            </div>
-          </div>
-        </div>
-      </div>
       @endsection
 @push('scripts')
 <script>
@@ -346,12 +293,14 @@
 
    function appendEditJawaban(id, jawaban){
      return `<div class="col-12">
-                        <form action="">
+                        <form action="/answer/update/${id}" method="POST">
+                            {{ csrf_field() }}
+                            {{ method_field('PATCH') }}
                           <div class="mb-3">
-                           <textarea name="" id="edit_jawaban${id}" cols="30" rows="10" class="form-control edit-jawaban">${jawaban}</textarea>
+                           <textarea name="content" id="edit_jawaban${id}" cols="30" rows="10" class="form-control edit-jawaban">${jawaban}</textarea>
                          </div>
-                         <button type="submit" class="btn btn-outline-main-color" onclick="canceledJawaban(${id})">Batal</button>
-                         <button type="submit" class="btn btn-main-color" onclick="replaceJawaban(${id})">Simpan</button>
+                         <button type="button" class="btn btn-outline-main-color" onclick="canceledJawaban(${id})">Batal</button>
+                         <button type="submit" class="btn btn-main-color">Simpan</button>
                         </form>
                        </div>`
    }

@@ -5,28 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Question;
-
+use App\Answer;
+use Auth;
+use App\UserView;
+use App\View;
 class PagesController extends Controller
 {
     public function index()
     {
-        $question = Question::all();  
-        return view('layouts/index', ['question' => $question]);
+        $question = Question::all();
+        return view('layouts.index', compact('question'));
     }
 
     public function upvote()
     {
-        $question = DB::table('questions')
-                ->orderBy('id', 'desc')
-                ->get();
-        return view('layouts/upvote', ['question' => $question]);
+        $question = Question::join('votes', 'votes.id', '=', 'vote_id')
+        ->orderBy('votes.count', 'DESC')
+        ->select('questions.*')
+        ->get();
+
+        return view('layouts.upvote', compact('question'));
     }
 
     public function downvote()
     {
-        $question = DB::table('questions')
-                ->orderBy('id', 'ASC')
-                ->get();
-        return view('layouts/downvote', ['question' => $question]);
+        $question = Question::join('votes', 'votes.id', '=', 'vote_id')
+        ->orderBy('votes.count', 'ASC')
+        ->select('questions.*')
+        ->get();
+
+        return view('layouts.downvote', compact('question'));
     }
 }

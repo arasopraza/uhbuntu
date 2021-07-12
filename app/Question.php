@@ -24,7 +24,7 @@ class Question extends Model
         return $this->belongsTo(View::class);
     }
 
-    public function answer(): HasMany
+    public function answer()
     {
         return $this->hasMany(Answer::class);
     }

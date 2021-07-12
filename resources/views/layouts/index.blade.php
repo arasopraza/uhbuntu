@@ -46,7 +46,7 @@
                                 <img src="img/icon/icon_dipilih.svg" alt="" class="img-fluid">
                               </div>
                               <div class="ms-3 mt-1 mb-1">
-                                  <p class="m-0 my-auto">0 Dipilih</p>
+                                  <p class="m-0 my-auto">{{$items->vote->count }} Dipilih</p>
                               </div>
                           </li>
                           <li class="d-flex my-2">
@@ -54,7 +54,7 @@
                               <img src="img/icon/icon_jawab.svg" alt="" class="img-fluid">
                             </div>
                             <div class="ms-3 mt-1 mb-1">
-                                <p class="m-0 my-auto">0 Jawaban</p>
+                                <p class="m-0 my-auto">{{$items->answer->count()}} Jawaban</p>
                             </div>
                         </li>
                         <li class="d-flex my-2">
@@ -62,7 +62,7 @@
                               <img src="img/icon/icon_mata.svg" alt="" class="img-fluid">
                             </div>
                             <div class="ms-3 mt-1 mb-1">
-                                <p class="m-0 my-auto">{{ $items->view_id }} Dilihat</p>
+                                <p class="m-0 my-auto">{{ $items->view->count }} Dilihat</p>
                             </div>
                         </li>
                       </ul>
@@ -92,7 +92,8 @@
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
             <div class="modal-body" style="padding-top: 0;">
-                <form action="">
+                <form action="{{route('store_question')}}" method="POST">
+                    {{ csrf_field() }}
                     <div class="text-center mb-5">
                         <h3>Pertanyaan</h3>
                     </div>
@@ -100,15 +101,15 @@
                         <div class="mb-5">
                             <div class="mb-3">
                                 <label for="" class="mb-2">Judul Pertanyaan</label>
-                                <input type="text" class="form-control" placeholder="Masukkan judul pertanyaanmu disini">
+                                <input type="text" class="form-control" name="title" placeholder="Masukkan judul pertanyaanmu disini">
                             </div>
                             <div class="mb-3">
                                 <label for="" class="mb-2">Penjelasan Pertanyaan</label>
-                                <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="Masukkan penjelasan pertanyaanmu disini"></textarea>
+                                <textarea name="content" cols="30" rows="10" class="form-control" placeholder="Masukkan penjelasan pertanyaanmu disini"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="" class="mb-2">Tag</label>
-                                <input type="text" class="form-control tagin" data-placeholder="Masukkan tag pertanyaanmu disini (maksimal 5 tags)">
+                                <input type="text" class="form-control tagin" name="tags" data-placeholder="Masukkan tag pertanyaanmu disini (maksimal 5 tags)">
                             </div>
                         </div>
                         <div class="d-grid">
@@ -119,36 +120,6 @@
             </div>
             <div class="modal-footer" style="border: none;">
 
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="row justify-content-end m-2">
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-            <div class="modal-body" style="padding-top: 0;">
-              <div class="container">
-                <div class="text-center mb-5">
-                  <img src="../img/robot.png" alt="" class="img-fluid">
-                  <h4>Apakah kamu yakin keluar
-                    dari halaman?</h4>
-              </div>
-              </div>
-            </div>
-            <div class="modal-footer" style="border: none;">
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mx-auto d-flex justify-content-between mb-5">
-                @csrf
-                <div class="d-grid mx-2">
-                  <button type="button" class="btn btn-lg btn-outline-main-color px-5" data-bs-dismiss="modal">Batal</button>
-                </div>
-                <div class="d-grid mx-2">
-                  <button type="submit" class="btn btn-lg btn-keluar px-5">Keluar</button>
-                </div>
-              </form>
             </div>
           </div>
         </div>

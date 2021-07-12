@@ -2,13 +2,6 @@
 
 @section('title', 'Uhbuntu')
 
-<style>
-    html, body{
-        height: 100%;
-        overflow: hidden;
-    }
-</style>
-
 @section('container')
 <body>
       <section class="bg-index" style="min-height: 100%">
@@ -39,7 +32,7 @@
                                 <img src="img/icon/icon_dipilih.svg" alt="" class="img-fluid">
                               </div>
                               <div class="ms-3 mt-1 mb-1">
-                                  <p class="m-0 my-auto">0 Dipilih</p>
+                                  <p class="m-0 my-auto">{{$items->vote->count}} Dipilih</p>
                               </div>
                           </li>
                           <li class="d-flex my-2">
@@ -47,7 +40,7 @@
                               <img src="img/icon/icon_jawab.svg" alt="" class="img-fluid">
                             </div>
                             <div class="ms-3 mt-1 mb-1">
-                                <p class="m-0 my-auto">0 Jawaban</p>
+                                <p class="m-0 my-auto">{{count($items->answer)}} Jawaban</p>
                             </div>
                         </li>
                         <li class="d-flex my-2">
@@ -55,7 +48,7 @@
                               <img src="img/icon/icon_mata.svg" alt="" class="img-fluid">
                             </div>
                             <div class="ms-3 mt-1 mb-1">
-                                <p class="m-0 my-auto">{{ $items->view_id }} Dilihat</p>
+                                <p class="m-0 my-auto">{{$items->view->count}} Dilihat</p>
                             </div>
                         </li>
                       </ul>
@@ -68,7 +61,7 @@
                   </div>
                   <div class="col-md-2 my-auto">
                       <div class="text-center">
-                        <a href="" class="fw-bolder main-color">Tampilkan</a>
+                        <a href="{{route('question', $items->id)}}" class="fw-bolder main-color">Tampilkan</a>
                       </div>
                     </div>
                 </div>
@@ -172,15 +165,15 @@
           </div>
         </div>
       </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/tagin.js"></script>
-    <script>
-        const tags = $('.tagin')[0]
-        tagin(tags)
-
-        $('#upload_profile').change((e) => {
-          $('#preview_image').attr('src', URL.createObjectURL($(e)[0].target.files[0]))
-        })
-    </script>
-</body>
 @endsection
+@push('scripts')
+<script>
+    const tags = $('.tagin')[0]
+    tagin(tags)
+
+    $('#upload_profile').change((e) => {
+      $('#preview_image').attr('src', URL.createObjectURL($(e)[0].target.files[0]))
+    })
+</script>
+@endpush
+

@@ -5,6 +5,13 @@ namespace App\Http\Controllers;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\View;
+use App\Vote;
+use App\Tag;
+use App\Answer;
+use carbon\carbon;
+use App\UserView;
+use Auth;
 
 class QuestionsController extends Controller
 {
@@ -36,7 +43,30 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $view = new View;
+        $view->count = 0;
+        $view->save();
+
+        $vote = new Vote;
+        $vote->count = 0;
+        $vote->save();
+
+        $question = new Question;
+        $question->user_id = Auth::id();
+        $question->vote_id = $vote->id;
+        $question->view_id = $view->id;
+        $question->title = $request->title;
+        $question->content = $request->content;
+        $question->save();
+
+        foreach (explode(',', $request->tags) as $tag) {
+            Tag::create([
+                'question_id' => $question->id,
+                'tags' => $tag
+            ]);
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -48,8 +78,22 @@ class QuestionsController extends Controller
     public function show($id)
     {
         $question = Question::findOrFail($id);
-        return view('layouts.detail', compact('question'));
-        // return view('layouts/detail', compact('question'));
+        $answer = Answer::where('question_id', $question->id)->get();
+        if(Auth::check()){
+            if(UserView::where('view_id',$question->view->id)
+            ->where('user_id', Auth::id())
+            ->get()->count() == 0){
+                UserView::create([
+                    'user_id' => Auth::id(),
+                    'view_id' => $question->view->id
+                ]);
+
+                $view = View::findOrFail($question->view->id);
+                $view->count += 1;
+                $view->save();
+            }
+        }
+        return view('layouts.detail', compact('question', 'answer'));
     }
 
     /**
@@ -75,6 +119,7 @@ class QuestionsController extends Controller
         //
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
@@ -83,6 +128,7 @@ class QuestionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Question::findOrFail($id)->delete();
+        return redirect('/');
     }
 }
