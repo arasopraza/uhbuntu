@@ -156,9 +156,5 @@
 <script>
     const tags = $('.tagin')[0]
     tagin(tags)
-
-    $('#upload_profile').change((e) => {
-      $('#preview_image').attr('src', URL.createObjectURL($(e)[0].target.files[0]))
-    })
 </script>
 @endpush

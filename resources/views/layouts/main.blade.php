@@ -42,10 +42,10 @@
                   @else
                     <div class="d-flex">
                       <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
-                        <img src="../img/avatar.png" alt="" class="img-fluid" width="30px">
+                        <img src="{{ (Auth::user()->photo != null ? asset('storage/profile/'.Auth::user()->photo) : asset('img/avatar.png'))}}" alt="" class="img-fluid" width="">
                     </div>
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ Auth::user()->name }}
+                        {{ Auth::user()->firstname }}
                       </a>
                       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalProfile">Profile</a></li>
@@ -64,57 +64,58 @@
               <div class="row justify-content-end m-2">
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-            <div class="modal-body" style="padding-top: 0;">
-                <form action="">
-                    <div class="text-center mb-3">
-                        <h3>Edit Profile</h3>
-                    </div>
-                    <div class="container">
-                        <div class="mb-5">
-                            <div class="mx-auto text-center mb-5" style="width: 190px">
-                              <div class="rounded bg-color-user mb-2">
-                              <div class="w-100">
-                                <label for="upload_profile" class="d-flex justify-content-end">
-                                  <img src="../img/icon/icon_edit.svg" alt="" class="image-fluid btn-edit-profile">
-                                </label>
-                                <input type="file" name="" id="upload_profile" class="edit-file-profile">
-                              </div>
-                              <div class="auto-crop">
-                                <img src="../img/avatar.png" id="preview_image" alt="" class="img-fluid">
-                              </div>
+              @if (Auth::check())
+                <div class="modal-body" style="padding-top: 0;">
+                    <form action="{{route('update_profile', Auth::id())}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+                        <div class="text-center mb-3">
+                            <h3>Edit Profile</h3>
+                        </div>
+                        <div class="container">
+                            <div class="mb-5">
+                                <div class="mx-auto text-center mb-5" style="width: 190px">
+                                <div class="rounded bg-color-user mb-2">
+                                <div class="w-100">
+                                    <label for="upload_profile" class="d-flex justify-content-end">
+                                    <img src="{{asset('img/icon/icon_edit.svg')}}" alt="" class="image-fluid btn-edit-profile">
+                                    </label>
+                                    <input type="file" name="photo" id="upload_profile" class="edit-file-profile">
+                                </div>
+                                <div class="auto-crop">
+                                    <img src="{{ (Auth::user()->photo != null ? asset('storage/profile/'.Auth::user()->photo) : asset('img/avatar.png'))}}" id="preview_image" alt="" class="img-fluid">
+                                </div>
+                                </div>
+                                {{-- <h5>{{ Auth::user()->name }}</h5> --}}
+                                </div>
+                                <div class="mb-3 row">
+                                <div class="col-6 mb-3">
+                                    <label for="" class="mb-2">Nama Depan</label>
+                                    <input type="text" name="firstname" class="form-control" value="{{Auth::user()->firstname}}" placeholder="Masukkan Nama Depan">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="" class="mb-2">Nama Belakang</label>
+                                    <input type="text" name="lastname" class="form-control" value="{{Auth::user()->lastname}}" placeholder="Masukkan Nama Belakang">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="" class="mb-2">Email</label>
+                                    <input type="Email" name="email" class="form-control" value="{{Auth::user()->email}}" placeholder="Masukkan Email">
+                                </div>
+                                </div>
                             </div>
-                              {{-- <h5>{{ Auth::user()->name }}</h5> --}}
-                            </div>
-                            <div class="mb-3 row">
-                              <div class="col-6 mb-3">
-                                <label for="" class="mb-2">Nama Depan</label>
-                                <input type="text" class="form-control" value="" placeholder="Masukkan Nama Depan">
-                              </div>
-                              <div class="col-6 mb-3">
-                                <label for="" class="mb-2">Nama Belakang</label>
-                                <input type="text" class="form-control" value="" placeholder="Masukkan Nama Belakang">
-                              </div>
-                              <div class="col-6 mb-3">
-                                <label for="" class="mb-2">Email</label>
-                                <input type="Email" class="form-control" value="" placeholder="Masukkan Email">
-                              </div>
-                              <div class="col-6 mb-3">
-                                <label for="" class="mb-2">Kata Sandi</label>
-                                <input type="text" class="form-control" value="" placeholder="Masukkan Kata sandi">
-                              </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-main-color">Simpan</button>
                             </div>
                         </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-main-color">Simpan</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="modal-footer" style="border: none;">
+                </div>
             </div>
-            <div class="modal-footer" style="border: none;">
             </div>
-          </div>
         </div>
-      </div>
+        @endif
+
       <div class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -148,6 +149,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{asset('js/trumbowyg.min.js')}}"></script>
     <script src="{{asset('js/tagin.js')}}"></script>
+    <script>
+        $('#upload_profile').change((e) => {
+            $('#preview_image').attr('src', URL.createObjectURL($(e)[0].target.files[0]))
+        })
+    </script>
     @stack('scripts')
 </body>
 </html>

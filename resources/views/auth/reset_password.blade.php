@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="col-6 col align-self-center row justify-content-md-center">
-                <form action="{{ route('login') }}" method="POST" class="col col-lg-8" style="margin-bottom: 100px;">
+                <form action="{{ route('confirm_reset') }}" method="POST" class="col col-lg-8" style="margin-bottom: 100px;">
                     @csrf
                     <div style="margin-bottom: 100px">
                         <div class="mx-auto" style="width: 80px;">
@@ -29,32 +29,35 @@
                         </div>
                     </div>
                     <div class="mb-4">
-                        <h3>Masuk</h3>
-                        <small>Belum memiliki akun? <a href="/register">Daftar</a></small>
+                        <h3>Reset Password</h3>
                     </div>
                     <div class="mb-4">
                         <div class="mb-3">
                             <label for="email">Email</label>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="mb-2">
-                            <label for="password">Password</label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                            @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                            <input id="email" type="email" class="form-control @if(session('errorEmail')) is-invalid @endif" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            @if (session('errorEmail'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ session('errorEmail') }}</strong>
+                                </span>
+                            @endif
                         </div>
                         <div class="mb-3">
-                            <a href="{{route('reset_password')}}">
-                                <small>Lupa Password?</small>
-                            </a>
+                            <label for="password">New Password</label>
+                            <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
+                            {{-- @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror --}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Konfirmasi Password</label>
+                            <input id="password" type="password" class="form-control  @if(session('errorPassword')) is-invalid @endif" name="confirmPassword" required autocomplete="current-password">
+                            @if (session('errorPassword'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ session('errorPassword') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
                     <div class="d-grid">

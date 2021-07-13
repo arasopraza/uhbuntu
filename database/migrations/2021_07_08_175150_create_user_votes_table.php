@@ -17,6 +17,7 @@ class CreateUserVotesTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('vote_id')->unsigned();
+            $table->enum('status', ['upvote', 'reset', 'downvote']);
             $table->timestamps();
 
             $table->foreign('user_id')

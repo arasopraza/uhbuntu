@@ -10,7 +10,7 @@
                 <div class="bg-robot-detail img-robot-detail h-100">
                   <div class="row h-100">
                     <div class="col-12">
-                      <button class="btn btn-back d-flex mx-auto mt-5"><i class="icon-arrow-left"></i>Kembali</button>
+                      <a href="{{url()->previous()}}" class="btn btn-back d-flex mx-auto mt-5"><i class="icon-arrow-left"></i>Kembali</a>
                     </div>
                     <div class="col-12 align-self-end">
                       <div class="image-frame1"></div>
@@ -26,19 +26,19 @@
                   <div class="my-auto p-0">
                       <ul class="me-4 p-0">
                           <li class="d-flex my-2">
-                              <div>
+                              <button type="button" class="btn btn-icon" id="upvote">
                                 <span class="icon-polygon-up"></span>
-                              </div>
+                              </button>
                           </li>
                           <li class="d-flex my-2">
-                            <div class="mx-2 main-color">
+                            <div class="mx-2 main-color" id="vote_question_count">
                                 {{$question->vote->count}}
                             </div>
                         </li>
                         <li class="d-flex my-2">
-                            <div>
-                              <span class="icon-polygon-down"></span>
-                            </div>
+                            <button type="button" class="btn btn-icon" id="downvote">
+                                <span class="icon-polygon-down"></span>
+                            </button>
                         </li>
                       </ul>
                   </div>
@@ -46,11 +46,11 @@
                     <div class="d-flex">
                       <div class="me-3">
                         <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
-                          <img src="../img/avatar.png" alt="" class="img-fluid" width="30px">
+                          <img src="{{ ($question->user->photo != null ? asset('storage/profile/'.$question->user->photo) : asset('img/avatar.png'))}}" alt="" class="img-fluid" width="">
                       </div>
                       </div>
                       <div class="">
-                        <h6 class="m-0">{{$question->user->name}}</h6>
+                        <h6 class="m-0">{{$question->user->firstname}}</h6>
                         <small class="m-0 fw-bold">{{Helpers::parseDate($question->updated_at)}}</small>
                       </div>
                     </div>
@@ -61,17 +61,21 @@
                   <div class="m-3">
                     <div class="row">
                         <div class="card-body col-11">
+                            <div class="d-flex mb-2 secondary-color">
+                                @foreach ($question->tag as $item)
+                                    <p class="me-2 mb-0 tags-question">#{{$item->tags}}</p>
+                                @endforeach
+                            </div>
                             <h5 class="card-title">{{ $question->title }}</h5>
                             <p class="card-text">{{ $question->content }}</p>
                           </div>
                           @if (Auth::id() == $question->user->id)
                             <div class="col-1">
                                 <div class="dropdown">
-                                <button class="btn btn-icon" type="button" id="dots-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-icon" type="pbutton" id="dots-action" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="icon-three-dots-vertical"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dots-action">
-                                    <li><a class="dropdown-item" href="#" onclick="editQuestion()">Edit</a></li>
                                     <li><a class="dropdown-item" onclick="document.querySelector('#deleteQuestion').submit()" href="#">Hapus</a></li>
                                     <form action="{{route('destroy_question', $question->id)}}" method="post" id="deleteQuestion">
                                     {{ csrf_field() }}
@@ -89,7 +93,7 @@
                   <h5>Jawaban({{$answer->count()}})</h5>
                 </div>
 
-                @foreach ($answer as $item)
+                @foreach ($answer as $key => $item)
                 @if ($item->user->id == Auth::id())
                     @continue
                 @else
@@ -99,19 +103,19 @@
                         <div class="my-auto p-0">
                             <ul class="me-4 p-0">
                                 <li class="d-flex my-2">
-                                    <div>
-                                      <span class="icon-polygon-up"></span>
-                                    </div>
+                                    <button type="button" class="btn btn-icon" onclick="upvote({{$item->vote->id}}, {{$key}})">
+                                        <span class="icon-polygon-up"></span>
+                                      </button>
                                 </li>
                                 <li class="d-flex my-2">
-                                  <div class="mx-2 main-color">
+                                  <div class="mx-2 main-color" id="vote_answer_count{{$key}}">
                                     {{$item->vote->count}}
                                   </div>
                               </li>
                               <li class="d-flex my-2">
-                                  <div>
+                                <button type="button" class="btn btn-icon" onclick="downvote({{$item->vote->id}}, {{$key}})">
                                     <span class="icon-polygon-down"></span>
-                                  </div>
+                                </button>
                               </li>
                             </ul>
                         </div>
@@ -119,11 +123,11 @@
                           <div class="d-flex">
                             <div class="me-3">
                               <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
-                                <img src="../img/avatar.png" alt="" class="img-fluid" width="30px">
+                                <img src="{{ ($item->user->photo != null ? asset('storage/profile/'.$item->user->photo) : asset('img/avatar.png'))}}" alt="" class="img-fluid" width="">
                             </div>
                             </div>
                             <div class="">
-                              <h6 class="m-0">{{$item->user->name}}</h6>
+                              <h6 class="m-0">{{$item->user->firstname}}</h6>
                               <small class="m-0 fw-bold">{{Helpers::parseDate($item->updated_at)}}</small>
                             </div>
                           </div>
@@ -171,11 +175,11 @@
                             <div class="d-flex">
                                 <div class="pe-3">
                                 <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
-                                    <img src="../img/avatar.png" alt="" class="img-fluid" width="30px">
+                                    <img src="{{ (Auth::user()->photo != null ? asset('storage/profile/'.Auth::user()->photo) : asset('img/avatar.png'))}}" alt="" class="img-fluid" width="">
                                 </div>
                                 </div>
                                 <div class="my-auto">
-                                <h6 class="m-0">{{Auth::user()->name}}</h6>
+                                <h6 class="m-0">{{Auth::user()->firstname}}</h6>
                                 <small class="m-0 fw-bold">{{Helpers::parseDate($item->updated_at)}}</small>
                                 </div>
                             </div>
@@ -220,11 +224,11 @@
                             <div class="d-flex">
                             <div class="pe-3">
                                 <div class="my-auto avatar-crop rounded-circle bg-color-user text-center">
-                                <img src="../img/avatar.png" alt="" class="img-fluid" width="30px">
+                                <img src="{{ (Auth::user()->photo != null ? asset('storage/profile/'.Auth::user()->photo) : asset('img/avatar.png'))}}" alt="" class="img-fluid" width="">
                             </div>
                             </div>
                             <div class="my-auto">
-                                <h6 class="m-0">{{Auth::user()->name}}</h6>
+                                <h6 class="m-0">{{Auth::user()->firstname}}</h6>
                             </div>
                             </div>
                         </div>
@@ -271,6 +275,7 @@
 @push('scripts')
 <script>
     var jawaban = ''
+    const voteCountQuestion = $('#vote_question_count')
     $.trumbowyg.svgPath = '../img/icon/icons.svg'
    function appendJawaban(id, jawaban){
        return `<div class="col-11">
@@ -342,6 +347,87 @@
        ]
      })
    }
+
+   $('#upvote').click(() => {
+    $.ajax({
+        url: '{{route("update_upvote", $question->id)}}',
+        type: 'POST',
+        data: {
+            '_token' : '{{csrf_token()}}'
+        },
+        success : (data) => {
+            console.log(typeof data)
+            if(typeof data == "number"){
+                voteCountQuestion.empty()
+                voteCountQuestion.text(data)
+            }
+        },
+        error : (data) => {
+            console.err(data)
+        }
+    })
+   })
+
+   $('#downvote').click(() => {
+    $.ajax({
+        url: '{{route("update_downvote", $question->id)}}',
+        type: 'POST',
+        data: {
+            '_token' : '{{csrf_token()}}'
+        },
+        success : (data) => {
+            console.log(typeof data)
+            if(typeof data == "number"){
+                voteCountQuestion.empty()
+                voteCountQuestion.text(data)
+            }
+        },
+        error : (data) => {
+            console.err(data)
+        }
+    })
+   })
+
+   function upvote(id, key){
+        $.ajax({
+            url: '/vote/upvote/'+id,
+            type: 'POST',
+            data: {
+                '_token' : '{{csrf_token()}}'
+            },
+            success : (data) => {
+                const voteAnswer = $('#vote_answer_count'+key)
+                if(typeof data == "number"){
+                    voteAnswer.empty()
+                    voteAnswer.text(data)
+                }
+            },
+            error : (data) => {
+                console.err(data)
+            }
+        })
+   }
+
+   function downvote(id, key){
+        $.ajax({
+            url: '/vote/downvote/'+id,
+            type: 'POST',
+            data: {
+                '_token' : '{{csrf_token()}}'
+            },
+            success : (data) => {
+                const voteAnswer = $('#vote_answer_count'+key)
+                if(typeof data == "number"){
+                    voteAnswer.empty()
+                    voteAnswer.text(data)
+                }
+            },
+            error : (data) => {
+                console.err(data)
+            }
+        })
+   }
+
    richEditor()
  </script>
 @endpush

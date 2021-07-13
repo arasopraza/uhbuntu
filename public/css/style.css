@@ -11,6 +11,10 @@ body{
     color: #5E93D1;
 }
 
+.secondary-color{
+    color: #E576C6;
+}
+
 .main-color:hover{
     color: #4a75a8;
 }
@@ -221,6 +225,11 @@ body{
 .btn-back{
     background-color: #E576C6;
     color: #fff;
+    width: max-content;
+}
+
+.btn-back:hover{
+    color: #fff;
 }
 
 .icon-arrow-left{
@@ -286,4 +295,8 @@ a.btn.btn-before-login-answer{
     font-size: 18px !important;
     color: #5E93D1;
     background-color: #fff;
+}
+
+.tags-question{
+    font-size: x-small;
 }
