@@ -36,4 +36,9 @@ class PagesController extends Controller
 
         return view('layouts.downvote', compact('question'));
     }
+
+    public function search(Request $request){
+        $question = Question::where('title', 'like', '%'.$request->q.'%')->get();
+        return view('layouts.search', compact('question'));
+    }
 }

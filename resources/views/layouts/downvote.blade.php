@@ -13,11 +13,12 @@
 <body>
       <section class="bg-index" style="min-height: 100%">
           <div class="container">
-            <form action="" class="row pt-3 pb-3">
+            <form action="{{route('search_pages')}}" class="row pt-3 pb-3" method="GET">
                 <div class="col-md-9">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text" style="border: 0; background-color: #fff;" id="basic-addon1"><i class="icon-search"></i></span>
                         <input type="text" class="form-control border-0 search-jawaban" placeholder="Cari jawabanmu disini">
+                        <input type="submit" style="width: 0; height: 0; display: none">
                       </div>
                   </div>
                   <div class="col-md-3 d-grid">

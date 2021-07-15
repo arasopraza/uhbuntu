@@ -22,6 +22,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/questions/{question}', 'QuestionsController@show')->name('question');
 
+Route::get('/search', 'PagesController@search')->name('search_pages');
+
 Route::prefix('/reset-password')->group(function () {
     Route::get('/', function(){
         return view('auth.reset_password');
